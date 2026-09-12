@@ -53,7 +53,8 @@ const useStyles = makeStyles((colors) => ({
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 12,
-    marginVertical: 10,
+    marginTop: 10,
+    marginBottom: 6,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.surfaceSecondary,
@@ -68,11 +69,46 @@ const useStyles = makeStyles((colors) => ({
     fontSize: 14,
     color: colors.onSurface,
   },
-  filterRow: {
-    paddingHorizontal: 12,
-    paddingBottom: 8,
+  searchModeRow: {
+    flexDirection: "row",
+    marginHorizontal: 12,
+    marginBottom: 10,
+    gap: 6,
+  },
+  searchModeBtn: {
+    flex: 1,
+    height: 32,
+    borderRadius: 2,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceSecondary,
+    justifyContent: "center",
+    alignItems: "center",
     flexDirection: "row",
     gap: 6,
+  },
+  searchModeBtnActive: {
+    borderColor: colors.brandPrimary,
+    backgroundColor: colors.brandTertiary,
+  },
+  searchModeText: {
+    fontFamily: fonts.mono,
+    fontSize: 10,
+    letterSpacing: 1,
+    color: colors.muted,
+  },
+  searchModeTextActive: {
+    color: colors.brandPrimary,
+  },
+  filterRow: {
+    paddingHorizontal: 12,
+    paddingBottom: 4,
+    flexDirection: "row",
+    gap: 6,
+  },
+  filterRowFull: {
+    paddingHorizontal: 12,
+    paddingBottom: 6,
   },
   chip: {
     flexShrink: 0,
@@ -84,6 +120,14 @@ const useStyles = makeStyles((colors) => ({
     backgroundColor: colors.surfaceSecondary,
     justifyContent: "center",
     alignItems: "center",
+  },
+  chipFull: {
+    width: "100%",
+    flexShrink: 1,
+  },
+  chipInRow: {
+    flex: 1,
+    paddingHorizontal: 4,
   },
   chipActive: {
     borderColor: colors.brandPrimary,
@@ -151,8 +195,10 @@ const FILTERS: { key: "ALL" | "Fractional" | "Wire" | "Letter" | "Metric"; label
   { key: "Fractional", label: "FRAC" },
   { key: "Wire", label: "WIRE" },
   { key: "Letter", label: "LETTER" },
-  { key: "Metric", label: "METRIC" },
+  { key: "Metric", label: "MM" },
 ];
+
+type SearchMode = "in" | "mm";
 
 export default function DrillsList() {
   const styles = useStyles();
@@ -160,6 +206,7 @@ export default function DrillsList() {
   const insets = useSafeAreaInsets();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<(typeof FILTERS)[number]["key"]>("ALL");
+  const [searchMode, setSearchMode] = useState<SearchMode>("in");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -167,11 +214,14 @@ export default function DrillsList() {
       if (filter !== "ALL" && d.type !== filter) return false;
       if (!q) return true;
       if (d.label.toLowerCase().includes(q)) return true;
-      if (d.diameter_in.toFixed(4).includes(q)) return true;
-      if (d.diameter_mm.toFixed(3).includes(q)) return true;
+      if (searchMode === "in") {
+        if (d.diameter_in.toFixed(4).includes(q)) return true;
+      } else {
+        if (d.diameter_mm.toFixed(3).includes(q)) return true;
+      }
       return false;
     });
-  }, [query, filter]);
+  }, [query, filter, searchMode]);
 
   const renderRow = ({ item, index }: { item: Drill; index: number }) => {
     const isFrac = item.type === "Fractional";
@@ -223,7 +273,7 @@ export default function DrillsList() {
           style={styles.searchInput}
           value={query}
           onChangeText={setQuery}
-          placeholder="Search size, decimal..."
+          placeholder={`Search size or decimal ${searchMode === "in" ? "inch" : "mm"}...`}
           placeholderTextColor={colors.muted}
           autoCorrect={false}
           autoCapitalize="none"
@@ -235,8 +285,48 @@ export default function DrillsList() {
         )}
       </View>
 
+      <View style={styles.searchModeRow} testID="search-mode-row">
+        <Pressable
+          testID="search-mode-in"
+          onPress={() => {
+            Haptics.selectionAsync().catch(() => {});
+            setSearchMode("in");
+          }}
+          style={[styles.searchModeBtn, searchMode === "in" && styles.searchModeBtnActive]}
+        >
+          <Text style={[styles.searchModeText, searchMode === "in" && styles.searchModeTextActive]}>
+            DECIMAL INCH
+          </Text>
+        </Pressable>
+        <Pressable
+          testID="search-mode-mm"
+          onPress={() => {
+            Haptics.selectionAsync().catch(() => {});
+            setSearchMode("mm");
+          }}
+          style={[styles.searchModeBtn, searchMode === "mm" && styles.searchModeBtnActive]}
+        >
+          <Text style={[styles.searchModeText, searchMode === "mm" && styles.searchModeTextActive]}>
+            DECIMAL MM
+          </Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.filterRowFull}>
+        <Pressable
+          testID="filter-ALL"
+          onPress={() => {
+            Haptics.selectionAsync().catch(() => {});
+            setFilter("ALL");
+          }}
+          style={[styles.chip, styles.chipFull, filter === "ALL" && styles.chipActive]}
+        >
+          <Text style={[styles.chipText, filter === "ALL" && styles.chipTextActive]}>ALL</Text>
+        </Pressable>
+      </View>
+
       <View style={styles.filterRow}>
-        {FILTERS.map((f) => {
+        {FILTERS.filter((f) => f.key !== "ALL").map((f) => {
           const active = filter === f.key;
           return (
             <Pressable
@@ -246,7 +336,7 @@ export default function DrillsList() {
                 Haptics.selectionAsync().catch(() => {});
                 setFilter(f.key);
               }}
-              style={[styles.chip, active && styles.chipActive]}
+              style={[styles.chip, styles.chipInRow, active && styles.chipActive]}
             >
               <Text style={[styles.chipText, active && styles.chipTextActive]}>{f.label}</Text>
             </Pressable>
