@@ -151,6 +151,14 @@ export default function Home() {
         >
           <Text style={styles.cardTitle}>DRILLS</Text>
         </Pressable>
+
+        <Pressable
+          testID="home-tap-chart-card"
+          onPress={() => go("/tap-chart")}
+          style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+        >
+          <Text style={styles.cardTitle}>TAP CHART</Text>
+        </Pressable>
       </View>
 
       <View style={styles.footer}>
