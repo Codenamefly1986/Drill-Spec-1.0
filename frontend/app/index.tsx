@@ -59,7 +59,7 @@ const useStyles = makeStyles((colors) => ({
     borderLeftColor: colors.brandPrimary,
     borderRadius: 4,
     padding: 20,
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   cardPressed: {
     backgroundColor: colors.surfaceTertiary,
@@ -141,13 +141,7 @@ export default function Home() {
           onPress={() => go("/calculator")}
           style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
         >
-          <View>
-            <Text style={styles.cardTitle}>DRILL TIP{"\n"}CALCULATOR</Text>
-          </View>
-          <View style={styles.cardArrowRow}>
-            <Text style={styles.cardCta}>OPEN</Text>
-            <MaterialDesignIcons name="arrow-right" size={22} color={colors.brandPrimary} />
-          </View>
+          <Text style={styles.cardTitle}>DRILL TIP{"\n"}CALCULATOR</Text>
         </Pressable>
 
         <Pressable
@@ -155,13 +149,7 @@ export default function Home() {
           onPress={() => go("/drills")}
           style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
         >
-          <View>
-            <Text style={styles.cardTitle}>DRILLS</Text>
-          </View>
-          <View style={styles.cardArrowRow}>
-            <Text style={styles.cardCta}>BROWSE</Text>
-            <MaterialDesignIcons name="arrow-right" size={22} color={colors.brandPrimary} />
-          </View>
+          <Text style={styles.cardTitle}>DRILLS</Text>
         </Pressable>
       </View>
 
