@@ -117,20 +117,28 @@ const useStyles = makeStyles((colors) => ({
     color: colors.muted,
   },
   measRow: {
-    flexDirection: "row",
     paddingHorizontal: 12,
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: colors.divider,
-    justifyContent: "space-between",
-    alignItems: "center",
   },
   measLast: { borderBottomWidth: 0 },
   measLabel: {
     fontFamily: fonts.mono,
-    fontSize: 12,
+    fontSize: 11,
     letterSpacing: 1,
     color: colors.muted,
+  },
+  measValuesRow: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "baseline",
+    marginTop: 6,
+    gap: 16,
+  },
+  measValueBlock: {
+    flexDirection: "row",
+    alignItems: "baseline",
   },
   measValue: {
     fontFamily: fonts.monoBold,
@@ -254,12 +262,19 @@ export default function DrillDetail() {
 
 function MeasureRow({ label, value, last }: { label: string; value: number; last?: boolean }) {
   const styles = useStyles();
+  const mm = value * 25.4;
   return (
     <View style={[styles.measRow, last && styles.measLast]}>
       <Text style={styles.measLabel}>{label}</Text>
-      <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-        <Text style={styles.measValue}>{value.toFixed(4)}</Text>
-        <Text style={styles.measUnit}>IN</Text>
+      <View style={styles.measValuesRow}>
+        <View style={styles.measValueBlock}>
+          <Text style={styles.measValue}>{value.toFixed(4)}</Text>
+          <Text style={styles.measUnit}>IN</Text>
+        </View>
+        <View style={styles.measValueBlock}>
+          <Text style={styles.measValue}>{mm.toFixed(2)}</Text>
+          <Text style={styles.measUnit}>MM</Text>
+        </View>
       </View>
     </View>
   );
