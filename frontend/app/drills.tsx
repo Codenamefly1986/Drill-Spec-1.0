@@ -213,13 +213,10 @@ export default function DrillsList() {
     return ALL_DRILLS.filter((d) => {
       if (filter !== "ALL" && d.type !== filter) return false;
       if (!q) return true;
-      if (d.label.toLowerCase().includes(q)) return true;
       if (searchMode === "in") {
-        if (d.diameter_in.toFixed(4).includes(q)) return true;
-      } else {
-        if (d.diameter_mm.toFixed(3).includes(q)) return true;
+        return d.diameter_in.toFixed(4).includes(q);
       }
-      return false;
+      return d.diameter_mm.toFixed(3).includes(q);
     });
   }, [query, filter, searchMode]);
 
@@ -273,7 +270,7 @@ export default function DrillsList() {
           style={styles.searchInput}
           value={query}
           onChangeText={setQuery}
-          placeholder={`Search size or decimal ${searchMode === "in" ? "inch" : "mm"}...`}
+          placeholder={`Search decimal ${searchMode === "in" ? "inch" : "mm"}...`}
           placeholderTextColor={colors.muted}
           autoCorrect={false}
           autoCapitalize="none"
