@@ -135,8 +135,6 @@ export default function Home() {
         </Pressable>
       </View>
 
-      <Text style={styles.tagline}>MACHINIST REFERENCE // v1.0</Text>
-
       <View style={styles.cardsWrap}>
         <Pressable
           testID="home-calculator-card"
@@ -144,11 +142,7 @@ export default function Home() {
           style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
         >
           <View>
-            <Text style={styles.cardIndex}>01 / TOOL</Text>
             <Text style={styles.cardTitle}>DRILL TIP{"\n"}CALCULATOR</Text>
-            <Text style={styles.cardSub}>
-              Compute the axial length of a drill{"\n"}point from diameter and included tip angle.
-            </Text>
           </View>
           <View style={styles.cardArrowRow}>
             <Text style={styles.cardCta}>OPEN</Text>
@@ -162,12 +156,7 @@ export default function Home() {
           style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
         >
           <View>
-            <Text style={styles.cardIndex}>02 / DATABASE</Text>
             <Text style={styles.cardTitle}>DRILLS</Text>
-            <Text style={styles.cardSub}>
-              Fractional, Wire, Letter, Metric.{"\n"}Sorted smallest to largest with{"\n"}decimal
-              inch and mm equivalents.
-            </Text>
           </View>
           <View style={styles.cardArrowRow}>
             <Text style={styles.cardCta}>BROWSE</Text>
