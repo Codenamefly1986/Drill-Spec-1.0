@@ -270,7 +270,7 @@ export default function DrillsList() {
           style={styles.searchInput}
           value={query}
           onChangeText={setQuery}
-          placeholder={`Search decimal ${searchMode === "in" ? "inch" : "mm"}...`}
+          placeholder=""
           placeholderTextColor={colors.muted}
           autoCorrect={false}
           autoCapitalize="none"

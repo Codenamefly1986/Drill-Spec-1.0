@@ -243,7 +243,7 @@ export default function Calculator() {
                 style={styles.input}
                 value={diameter}
                 onChangeText={setDiameter}
-                placeholder="0.000"
+                placeholder=""
                 placeholderTextColor={colors.muted}
                 keyboardType="decimal-pad"
                 inputMode="decimal"
@@ -260,7 +260,7 @@ export default function Calculator() {
                 style={styles.input}
                 value={angle}
                 onChangeText={setAngle}
-                placeholder="118"
+                placeholder=""
                 placeholderTextColor={colors.muted}
                 keyboardType="decimal-pad"
                 inputMode="decimal"
