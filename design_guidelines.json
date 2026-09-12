@@ -1,0 +1,154 @@
+{
+  "app_name": "Drill Spec",
+  "personality": "7 Dark-First Utility with 5 Brutalist Mobile typography structure",
+  "personality_one_liner": "A high-precision, no-nonsense industrial tool for machinists where typography and data density take absolute priority.",
+  "color": {
+    "surface": "#121212",
+    "onSurface": "#E0E0E0",
+    "surfaceSecondary": "#1E1E1E",
+    "onSurfaceSecondary": "#F5F5F5",
+    "surfaceTertiary": "#2C2C2C",
+    "onSurfaceTertiary": "#FFFFFF",
+    "surfaceInverse": "#E0E0E0",
+    "onSurfaceInverse": "#121212",
+    "brand": "#FF5722",
+    "brandPrimary": "#FF5722",
+    "onBrandPrimary": "#FFFFFF",
+    "brandSecondary": "#E64A19",
+    "onBrandSecondary": "#FFFFFF",
+    "brandTertiary": "#3E2723",
+    "onBrandTertiary": "#FF5722",
+    "success": "#2E7D32",
+    "onSuccess": "#FFFFFF",
+    "warning": "#F57F17",
+    "onWarning": "#121212",
+    "error": "#C62828",
+    "onError": "#FFFFFF",
+    "info": "#0277BD",
+    "onInfo": "#FFFFFF",
+    "border": "#333333",
+    "borderStrong": "#555555",
+    "divider": "#2A2A2A",
+    "muted": "#9E9E9E",
+    "onBrand": "#FFFFFF"
+  },
+  "typography": {
+    "displayFontFamily": "Barlow Condensed",
+    "textFontFamily": "IBM Plex Mono",
+    "scale": {
+      "sm": 12,
+      "base": 14,
+      "lg": 16,
+      "xl": 20,
+      "2xl": 24
+    }
+  },
+  "spacing": {
+    "rule": "Dense and deliberate. Padding is mechanical. Standardize row heights for the data table (e.g., 44px min height for touch targets, but visually compressed to allow scanning).",
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48
+  },
+  "radius_tokens": {
+    "sm": 2,
+    "md": 4,
+    "lg": 8,
+    "pill": 999
+  },
+  "shadow_tier": "0",
+  "navigation": "stack_only",
+  "icon_set": "Phosphor",
+  "glassmorphism": {
+    "enabled": "false",
+    "do's": [],
+    "dont's": ["Do not use blur or glass on data dense screens, it reduces clarity"]
+  },
+  "platform_libraries": {
+    "glass": {
+      "ios": "expo-glass-effect",
+      "android": "expo-blur",
+      "low_end_android_fallback": "solid surfaceSecondary"
+    },
+    "image": "expo-image",
+    "blur": "expo-blur",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "screens": [
+    {
+      "name": "Home",
+      "purpose": "Launchpad providing immediate access to the two main utilities.",
+      "states": {
+        "loading": "No loading state needed (static menu).",
+        "empty": "N/A",
+        "error": "N/A"
+      },
+      "layout": "Two massive stacked cards taking up the majority of the screen, styled like structural control panels. A top header features the 'Drill Spec' wordmark (Barlow Condensed) and a top-right gear icon for Settings. Background is strictly pure 'surface'."
+    },
+    {
+      "name": "TipCalculator",
+      "purpose": "Calculates drill tip length given diameter and angle.",
+      "states": {
+        "loading": "N/A",
+        "empty": "Awaiting inputs: Show placeholder zeros or empty dashes in the result area.",
+        "error": "If invalid inputs are entered, outline the fields in warning color."
+      },
+      "layout": "Unit toggle (SegmentedControl or dual buttons for mm/in) at the top. Two large number inputs (Diameter, Angle). A prominent sticky CTA button at the bottom 'CALCULATE'. The result displays in a massive, oversized monospace font in the center of the screen."
+    },
+    {
+      "name": "DrillList",
+      "purpose": "Comprehensive reference table of drill sizes.",
+      "states": {
+        "loading": "Centered spinner (brand color) with 'Loading database...'",
+        "empty": "No drills matched the search query.",
+        "error": "N/A"
+      },
+      "layout": "Top persistent search bar. Below it, a sticky header row with 5 columns. The FlatList displays rows with hairline bottom dividers. Flex distribution: Frac (1), W/L (1), Met (1), Dec In (1.5, right-aligned), Dec mm (1.5, right-aligned). Use 12px or 10px monospace font if necessary to fit perfectly on standard mobile widths without horizontal scroll."
+    },
+    {
+      "name": "DrillDetail",
+      "purpose": "Shows length designations for a selected drill.",
+      "states": {
+        "loading": "N/A",
+        "empty": "N/A",
+        "error": "N/A"
+      },
+      "layout": "Modal sheet or full screen. Large title identifying the drill. A secondary data table comparing Overall, Flute, and Shank lengths across Screw Machine, Jobber, and Taper styles."
+    },
+    {
+      "name": "Settings",
+      "purpose": "Allows switching the color theme.",
+      "states": {
+        "loading": "N/A",
+        "empty": "N/A",
+        "error": "N/A"
+      },
+      "layout": "A simple list of 4 theme presets (Dark, Light, Blue, Orange). Each option is a touchable row showing a preview swatch. Checkmark indicates the active theme."
+    }
+  ],
+  "images": {},
+  "haptics": {
+    "calculator_submit": "impactMedium",
+    "theme_switch": "impactLight",
+    "unit_toggle": "selection",
+    "list_item_tap": "selection"
+  },
+  "instructions_to_main_agent": [
+    "No emojis anywhere in the system UI.",
+    "Implement 4 separate color themes based on the user's request. Create a React Context or similar state management to hold the current theme. The default theme provided in this JSON is the 'Orange' industrial dark theme.",
+    "Theme 1 (Orange - Default): Obsidian base (#121212), Safety Orange brand (#FF5722), Monospace numbers.",
+    "Theme 2 (Dark): Monochrome carbon. Base (#0A0A0A), Brand/Accent (#FFFFFF or a cool electric cyan #00E5FF).",
+    "Theme 3 (Light): Engineering paper feel. Base (#F5F5F5), Surface (#FFFFFF), Text (#111111), Brand (#D32F2F - Industrial Red).",
+    "Theme 4 (Blue): Blueprint / Navy machinist. Base (#0A1128), Surface (#16203D), Text (#E2E8F0), Brand (#00B4D8).",
+    "Typography: Use 'Barlow Condensed' for all major headings and button labels. Use 'IBM Plex Mono' for EVERY number, table cell, input value, and standard label. Monospace is critical for alignment in the 5-column table.",
+    "Table Layout: Do NOT use horizontal scrolling. Squeeze the 5 columns natively into the viewport. Use flex ratios carefully: Frac(1), W/L(1), Met(1), DecIn(1.5), DecMM(1.5). Text align left for the first three, right align for the decimals. Use 'xs' font size (12px) or even 10px if needed to make sure they don't clip.",
+    "The Drill Tip Calculator formula must be exactly: Drill Tip Length = (Diameter / 2) / Math.tan((Angle / 2) * (Math.PI / 180)). Ensure to convert the angle to radians for Math.tan().",
+    "Ensure the Calculate CTA is sticky at the bottom of the screen (or securely placed outside the scrollview) and styled mechanically (hard corners, 0 to 4px border radius).",
+    "There are no images in this app. Rely entirely on typography, layout tension, and color for visual hierarchy."
+  ]
+}
